@@ -17,7 +17,7 @@ def objects_counter():
     '''Retrieves the number of each objects by type'''
     json_to_retieve = {'amenities': storage.count('Amenity'),
                        'cities': storage.count('City'),
-                       'palces': storage.count('Place'),
+                       'places': storage.count('Place'),
                        'reviews': storage.count('Review'),
                        'states': storage.count('State'),
                        'users': storage.count('User')}
