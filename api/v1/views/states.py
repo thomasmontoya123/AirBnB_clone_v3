@@ -25,12 +25,12 @@ def states_list_id(state_id):
     abort(404)
 
 
-@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
 def states_remove(state_id):
     """Remove a state by Id"""
     state_to_delete = storage.get('State', state_id)
     if state_to_delete is None:
         abort(404)
-    state_to_delete.delete()
-    state_to_delete.save()
+    storage.delete(state_to_delete)
+    storage.save()
     return jsonify({})
