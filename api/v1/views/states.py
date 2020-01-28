@@ -2,7 +2,7 @@
 """States view module"""
 from models import storage
 from api.v1.views import app_views
-from flask import Flask, jsonify
+from flask import Flask, jsonify, abort
 
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
@@ -22,3 +22,4 @@ def states_list_id(state_id):
     for element in states_objs:
         if element.id == state_id:
             return jsonify(element.to_dict())
+    abort(404)
