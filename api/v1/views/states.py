@@ -13,3 +13,12 @@ def states_list():
     for element in states_objs:
         states_list.append(element.to_dict())
     return jsonify(states_list)
+
+
+@app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
+def states_list_id(state_id):
+    """Retrieves a specific State object"""
+    states_objs = storage.all('State').values()
+    for element in states_objs:
+        if element.id == state_id:
+            return jsonify(element.to_dict())
