@@ -4,7 +4,7 @@ from models import storage
 from models.city import City
 from models.state import State
 from api.v1.views import app_views
-from flask import Flask, jsonify, abort, request
+from flask import Flask, jsonify, abort, request, make_response
 
 
 @app_views.route('/cities', methods=['GET'], strict_slashes=False)
@@ -70,7 +70,7 @@ def new_city(state_id):
     storage.new(new_city)
     storage.save()
     storage.reload()
-    return jsonify(new_city.to_dict()), 201
+    return make_response(jsonify(new_city.to_dict())), 201
 
 
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
