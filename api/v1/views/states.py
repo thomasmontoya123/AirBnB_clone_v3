@@ -1,4 +1,4 @@
-#!/usr/bin/python3quit
+#!/usr/bin/python3
 """States view module"""
 from models import storage
 from models.state import State
