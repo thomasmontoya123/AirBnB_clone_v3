@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 '''Handles flask server and blueprint'''
 from models import storage
-from flask import Flask, jsonify, make_response
+from flask import Flask, jsonify, make_response, Blueprint
 from api.v1.views import app_views
 import os
 
