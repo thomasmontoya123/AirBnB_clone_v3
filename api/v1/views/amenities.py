@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """Amenities view module"""
 from models import storage
 from api.v1.views import app_views
