@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 '''starts a Flask web application'''
-from api.v1.views import app_views
-from flask import Flask, jsonify
 from models import storage
+from flask import Flask, jsonify
+from api.v1.views import app_views
 
 
 @app_views.route('/status', strict_slashes=False)
