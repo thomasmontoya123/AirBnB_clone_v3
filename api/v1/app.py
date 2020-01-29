@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 '''Handles flask server and blueprint'''
 from models import storage
-from flask import Flask, jsonify
+from flask import Flask, jsonify, make_response
 from api.v1.views import app_views
 import os
 
@@ -19,7 +19,7 @@ def teardown(error):
 def page_not_found(error):
     """ Handle error Page Not Found(404)"""
     json_error = {"error": "Not found"}
-    return jsonify(json_error)
+    return make_response(jsonify(json_error), 404)
 
 
 if __name__ == '__main__':
