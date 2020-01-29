@@ -33,12 +33,12 @@ def cities_list(state_id):
 
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
 def cities_list_id(city_id):
-    """Retrieves a specific State object by Id"""
-    cities_list = []
-    cities_objs = storage.get('City', city_id)
-    if cities_objs is None:
-        abort(404)
-    return jsonify(cities_objs.to_dict())
+    """Retrieves a specific City object by Id"""
+    cities_objs = storage.all('City').values()
+    for element in cities_objs:
+        if element.id == city_id:
+            return jsonify(element.to_dict())
+    abort(404)
 
 
 @app_views.route('/cities/<city_id>',
