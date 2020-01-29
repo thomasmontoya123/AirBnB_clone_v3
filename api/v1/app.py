@@ -3,6 +3,7 @@
 from models import storage
 from flask import Flask, jsonify
 from api.v1.views import app_views
+import os
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
@@ -22,4 +23,6 @@ def page_not_found(error):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True, threaded=True)
+    host = os.geten("HBNB_API_HOST", "0.0.0.0")
+    port = os.geten("HBNB_API_PORT", "5000")
+    app.run(host=host, port=port, debug=True, threaded=True)
