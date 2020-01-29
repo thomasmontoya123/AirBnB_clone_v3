@@ -57,33 +57,35 @@ def cities_remove(city_id):
                  methods=['POST'], strict_slashes=False)
 def new_city(state_id):
     """Creates a new state"""
-    city_data = request.get_json()
     state_obj = storage.get('State', state_id)
     if state_obj is None:
         abort(404)
-    if not city_data.get('name'):
-        abort(400, "Missing name")
+    city_data = request.get_json()
     if city_data is None:
         abort(400, "Not a JSON")
-    city_data['state_id'] = state_obj.to_dict().get('id')
+    if not city_data.get('name'):
+        abort(400, "Missing name")
+    city_data['state_id'] = state_id
     new_city = City(**city_data)
     storage.new(new_city)
     storage.save()
+    storage.reload()
     return jsonify(new_city.to_dict()), 201
 
 
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
 def city_update(city_id):
     """Updates one state based on its id"""
-    data_for_update = request.get_json()
-    if data_for_update is None:
-        abort(400, "Not a JSON")
     forbiden_keys = ['id', 'created_at', 'updated_at', 'state_id']
     city_to_update = storage.get('City', city_id)
     if city_to_update is None:
         abort(404)
+    data_for_update = request.get_json()
+    if data_for_update is None:
+        abort(400, "Not a JSON")
     for key, value in data_for_update.items():
         if key not in forbiden_keys:
             setattr(city_to_update, key, value)
     city_to_update.save()
+    storage.reload()
     return jsonify(city_to_update.to_dict()), 200
