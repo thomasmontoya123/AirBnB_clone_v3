@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""States view module."""
+"""States view module.."""
 from models import storage
 from models.city import City
 from models.state import State
