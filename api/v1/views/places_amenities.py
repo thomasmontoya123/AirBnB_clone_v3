@@ -27,7 +27,10 @@ def delete_place_amenity(place_id, amenity_id):
     place_get = storage.get('Place', place_id)
     amenity_get = storage.get('Amenity', amenity_id)
 
-    if place_get is None or amenity_get is None:
+    if place_get is None:
+        abort(404)
+
+    if amenity_get is None:
         abort(404)
 
     if amenity_get not in place_get.amenities:
@@ -45,8 +48,12 @@ def new_amenity_place(place_id, amenity_id):
     place_get = storage.get('Place', place_id)
     amenity_get = storage.get('Amenity', amenity_id)
 
-    if place_get is None or amenity_get is None:
+    if place_get is None:
         abort(404)
+
+    if amenity_get is None:
+        abort(404)
+
     if amenity_get in place_get.amenities:
         return make_response(jsonify(amenity_get.to_dict()), 200)
     place_get.amenities.append(amenity_get)
