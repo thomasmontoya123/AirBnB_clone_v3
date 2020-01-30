@@ -15,7 +15,7 @@ def list_place_by_amenity(place_id):
     place_get = storage.get('Place', place_id)
     if place_get is None:
         abort(404)
-    for element in place_get:
+    for element in place_get.amenities:
         amenities_list.append(element.to_dict())
     return jsonify(amenities_list)
 
