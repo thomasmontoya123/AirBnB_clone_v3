@@ -63,23 +63,22 @@ def new_review(place_id):
     place_obj = storage.get('Place', place_id)
     if place_obj is None:
         abort(404)
-    place_data = request.get_json()
-    if place_data is None:
+    review_data = request.get_json()
+    if review_data is None:
         abort(400, "Not a JSON")
-    if not place_data.get('user_id'):
+    if not review_data.get('user_id'):
         abort(400, "Missing user_id")
-    if not place_data.get('text'):
+    if not review_data.get('text'):
         abort(400, "Missing text")
-    user_obj = storage.get('User', place_data.get('user_id'))
+    user_obj = storage.get('User', review_data.get('user_id'))
     if user_obj is None:
         abort(404)
-    place_data['city_id'] = place_data.get('city_id')
-    place_data['user_id'] = place_data.get('user_id')
-    new_city = Place(**place_data)
-    storage.new(new_city)
-    storage.save()
-    storage.reload()
-    return make_response(jsonify(new_city.to_dict())), 201
+
+    review_data['place_id'] = place_id
+    new_review = Review(**review_data)
+    storage.new(new_review)
+    new_review.save()
+    return make_response(jsonify(new_review.to_dict()), 201)
 
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'], strict_slashes=False)
