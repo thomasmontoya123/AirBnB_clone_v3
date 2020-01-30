@@ -2,7 +2,7 @@
 """Users view module"""
 from models import storage
 from api.v1.views import app_views
-from flask import Flask, jsonify, abort, request
+from flask import Flask, jsonify, abort, request, make_response
 from models.user import User
 
 
@@ -45,15 +45,14 @@ def new_user():
     user_data = request.get_json()
     if user_data is None:
         abort(400, "Not a JSON")
-    if not user_data.get('name'):
-        abort(400, "Missing name")
     if not user_data.get('email'):
         abort(400, "Missing email")
     if not user_data.get('password'):
         abort(400, "Missing password")
     new_user = User(**user_data)
+    storage.new(new_user)
     new_user.save()
-    return jsonify(new_user.to_dict()), 201
+    return make_response(jsonify(new_user.to_dict())), 201
 
 
 @app_views.route('/users/<user_id>',
