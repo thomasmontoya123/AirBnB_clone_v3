@@ -11,10 +11,10 @@ from flask import Flask, jsonify, abort, request, make_response
 
 @app_views.route('/reviews', methods=['GET'], strict_slashes=False)
 def all_reviews():
-    """Retrieves the list of all State objects"""
+    """Retrieves the list of all Review objects"""
     reviews_list = []
-    states_objs = storage.all('Review').values()
-    for element in states_objs:
+    review_objs = storage.all('Review').values()
+    for element in review_objs:
         reviews_list.append(element.to_dict())
     print(reviews_list)
     return jsonify(reviews_list)
@@ -23,7 +23,7 @@ def all_reviews():
 @app_views.route('/places/<place_id>/reviews',
                  methods=['GET'], strict_slashes=False)
 def reviews_list(place_id):
-    """Retrieves the list of all State objects"""
+    """Retrieves the place objects by its id"""
     reviews_list = []
     places_objs = storage.get('Place', place_id)
     if places_objs is None:
@@ -36,9 +36,9 @@ def reviews_list(place_id):
 
 @app_views.route('/reviews/<review_id>', methods=['GET'], strict_slashes=False)
 def reviews_list_id(review_id):
-    """Retrieves a specific City object by Id"""
-    places_objs = storage.all('Review').values()
-    for element in places_objs:
+    """Retrieves a specific review object by Id"""
+    review_objs = storage.all('Review').values()
+    for element in review_objs:
         if element.id == review_id:
             return jsonify(element.to_dict())
     abort(404)
@@ -47,7 +47,7 @@ def reviews_list_id(review_id):
 @app_views.route('/reviews/<review_id>',
                  methods=['DELETE'], strict_slashes=False)
 def reviews_remove(review_id):
-    """Remove a state by Id"""
+    """Remove a review by Id"""
     review_to_delete = storage.get('Review', review_id)
     if review_to_delete is None:
         abort(404)
@@ -75,7 +75,6 @@ def new_review(place_id):
         abort(404)
     place_data['city_id'] = place_data.get('city_id')
     place_data['user_id'] = place_data.get('user_id')
-    print(place_data)
     new_city = Place(**place_data)
     storage.new(new_city)
     storage.save()
